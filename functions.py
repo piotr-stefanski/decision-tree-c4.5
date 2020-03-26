@@ -35,6 +35,7 @@ def calculateT(countOccurValuesFromColumns):
 
 def findNodeChildren(gainRatios, ParentNode):
     splitAttributeIndex = gainRatios.index(max(gainRatios))
+    ParentNode.attributeIndex = splitAttributeIndex
 
     attrValues = [attribute[splitAttributeIndex] for attribute in ParentNode.attributes] if type(ParentNode.attributes[0]) is list else [ParentNode.attributes[splitAttributeIndex]]
     availableAttrValues = list(set(attrValues))
@@ -46,8 +47,22 @@ def findNodeChildren(gainRatios, ParentNode):
 
         node = Node.Node(
             childNodeAttributes if type(childNodeAttributes[0]) is list else [childNodeAttributes],
-            list(itemgetter(*attrIndexes)(ParentNode.decisions)) if len(attrIndexes) > 1 else [ParentNode.decisions[attrIndexes[0]]]
+            list(itemgetter(*attrIndexes)(ParentNode.decisions)) if len(attrIndexes) > 1 else [ParentNode.decisions[attrIndexes[0]]],
+            availableAttrValue
         )
         nodes.append(node)
 
     return nodes
+
+def printNode(Node, slide):
+    if Node.children:
+        print(" " * slide, end="")
+        if Node.question:
+            print(Node.question, end=" -> ")
+        print("Atrybut", Node.attributeIndex)
+
+        for child in Node.children:
+            printNode(child, slide+4)
+    else:
+        print(" " * slide, end="")
+        print(Node.question, "->", Node.finalDecision)

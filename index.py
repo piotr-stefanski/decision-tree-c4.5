@@ -7,3 +7,5 @@ rows = data.split('\n')
 
 attributes, decisions = functions.getDecisionsAndAttributesFromRows(rows)
 rootNode = Node.Node(attributes, decisions)
+
+functions.printNode(rootNode, 0)
