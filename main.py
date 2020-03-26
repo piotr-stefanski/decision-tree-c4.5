@@ -22,3 +22,6 @@ def getGainRatioForData(attributes, decisions):
     gainRatio = calculate_gain_ratio.calculate(attributes, countOccurValuesFromColumns, information)
 
     return gainRatio
+
+def isContinueToBuildingTree(gainRatios):
+    return max(gainRatios) > 0
