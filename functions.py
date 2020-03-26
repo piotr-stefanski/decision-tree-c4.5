@@ -33,18 +33,21 @@ def getDecisionsAndAttributesFromRows(rows):
 def calculateT(countOccurValuesFromColumns):
     return sum(list(countOccurValuesFromColumns[0].values()))
 
-def getNewNodesByAttribute(attributeIndex, attributes, decisions):
-    attrValues = [attribute[attributeIndex] for attribute in attributes]
+def findNodeChildren(gainRatios, ParentNode):
+    splitAttributeIndex = gainRatios.index(max(gainRatios))
+
+    attrValues = [attribute[splitAttributeIndex] for attribute in ParentNode.attributes] if type(ParentNode.attributes[0]) is list else [ParentNode.attributes[splitAttributeIndex]]
     availableAttrValues = list(set(attrValues))
 
     nodes = []
     for availableAttrValue in availableAttrValues:
         attrIndexes = [i for i in range(len(attrValues)) if attrValues[i] == availableAttrValue]
-        node = Node.Node(
-            list(itemgetter(*attrIndexes)(attributes)),
-            list(itemgetter(*attrIndexes)(decisions))
-        )
+        childNodeAttributes = list(itemgetter(*attrIndexes)(ParentNode.attributes))
 
+        node = Node.Node(
+            childNodeAttributes if type(childNodeAttributes[0]) is list else [childNodeAttributes],
+            list(itemgetter(*attrIndexes)(ParentNode.decisions)) if len(attrIndexes) > 1 else [ParentNode.decisions[attrIndexes[0]]]
+        )
         nodes.append(node)
 
     return nodes
