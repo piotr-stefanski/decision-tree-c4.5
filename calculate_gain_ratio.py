@@ -11,6 +11,11 @@ def calculate(attributes, countOccurValuesFromColumns, information):
         ps = [countOccurValuesFromColumns[x][attributeValue] / T for attributeValue in availableAttributeValues]
         entropy = calculate_entropy.calculate(ps)
 
+        # TODO sure ???!
+        if entropy == 0:
+            gainRatio.append(0)
+            continue
+
         gainRatio.append((1-information[x])/entropy)
 
     return gainRatio
