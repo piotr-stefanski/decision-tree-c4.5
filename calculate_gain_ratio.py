@@ -1,9 +1,9 @@
 import functions
 import calculate_entropy
 
-def calculate(attributes, countOccurValuesFromColumns, information):
+def calculate(Node, countOccurValuesFromColumns, information):
     T = functions.calculateT(countOccurValuesFromColumns)
-    countAttributes = len(attributes[0])
+    countAttributes = len(Node.attributes[0])
 
     gainRatio = []
     for x in range(countAttributes):
@@ -16,6 +16,8 @@ def calculate(attributes, countOccurValuesFromColumns, information):
             gainRatio.append(0)
             continue
 
-        gainRatio.append((1-information[x])/entropy)
+        availableDecisionValues = list(set(Node.decisions))
+        ps = [Node.decisions.count(availableDecisionValue)/len(Node.decisions) for availableDecisionValue in availableDecisionValues]
+        gainRatio.append((calculate_entropy.calculate(ps)-information[x])/entropy)
 
     return gainRatio

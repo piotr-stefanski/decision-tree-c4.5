@@ -7,7 +7,7 @@ def getGainRatiosForNode(Node):
     countOccurValuesFromColumns = functions.getCountOccurValuesFromColumns(Node.attributes)
 
     information = calculate_information.calculate(Node.decisions, Node.attributes, countOccurValuesFromColumns)
-    gainRatio = calculate_gain_ratio.calculate(Node.attributes, countOccurValuesFromColumns, information)
+    gainRatio = calculate_gain_ratio.calculate(Node, countOccurValuesFromColumns, information)
 
     return gainRatio
 
